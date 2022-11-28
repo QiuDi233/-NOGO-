@@ -3,12 +3,12 @@
 #include<windows.h>
 #include<mmsystem.h>
 #pragma comment(lib,"winmm.lib")
-//#include"resource.h"//µ¼Èë×ÊÔ´Ö®ºóÓĞÒ»¸öresource.hÍ·ÎÄ¼ş ¼ÇµÃ¼ÓÉÏ
+//#include"resource.h"
 #include<Windows.h>
 #include<mmsystem.h>
-#include<iomanip>//°üº¬setw()º¯Êı
+#include<iomanip>//åŒ…å«setw()å‡½æ•°
 #include<ctime>
-#include<cstdlib>//°üº¬srand()º¯ÊıºÍrand()º¯Êı
+#include<cstdlib>//åŒ…å«srand()å‡½æ•°å’Œrand()å‡½æ•°
 #include <graphics.h>
 #include <time.h>
 #include <conio.h>
@@ -19,16 +19,16 @@
 #include<stdio.h>
 #undef UNICODE
 using namespace std;
-MOUSEMSG mouse; //¶¨ÒåÊó±êµÄÈ«¾Ö±äÁ¿
-int board[25][25];//·ÅÆåµÄÊı×é   0Îª¿Õ 1ÎªºÚ  2Îª°×  ºÚÆåÏÈÊÖ
-int r = 1;//»ØºÏÊı
-int option = 0;//Ñ¡ÔñµÄÆå×ÓÑÕÉ« ÎÒ°ÑËüÖÃÎªÈ«¾Ö±äÁ¿ ÒòÎªºóÃæÓĞ¸öº¯ÊıÒªÓÃµ½
-int x = 0, y = 0;//ÏÂµÄÆå×Ó×ø±ê ÎÒÒ²ÖÃÎªÁËÈ«¾Ö±äÁ¿ ÒòÎª±È½ÏÖØÒª
+MOUSEMSG mouse; //å®šä¹‰é¼ æ ‡çš„å…¨å±€å˜é‡
+int board[25][25];//æ”¾æ£‹çš„æ•°ç»„   0ä¸ºç©º 1ä¸ºé»‘  2ä¸ºç™½  é»‘æ£‹å…ˆæ‰‹
+int r = 1;//å›åˆæ•°
+int option = 0;//é€‰æ‹©çš„æ£‹å­é¢œè‰² æˆ‘æŠŠå®ƒç½®ä¸ºå…¨å±€å˜é‡ å› ä¸ºåé¢æœ‰ä¸ªå‡½æ•°è¦ç”¨åˆ°
+int x = 0, y = 0;//ä¸‹çš„æ£‹å­åæ ‡ æˆ‘ä¹Ÿç½®ä¸ºäº†å…¨å±€å˜é‡ å› ä¸ºæ¯”è¾ƒé‡è¦
 int dx[4] = { 0,0,-1,1 };
 int dy[4] = { 1,-1,0,0 };
 bool lose_directly = false;
-//²î²»¶à×¼±¸ÓÃÕâ¸ö  1280x650´óĞ¡ÆÁÄ»
-int X1 = 0;//Êó±êµÄºá×İ
+//å·®ä¸å¤šå‡†å¤‡ç”¨è¿™ä¸ª  1280x650å¤§å°å±å¹•
+int X1 = 0;//é¼ æ ‡çš„æ¨ªçºµ
 int Y1 = 0;
 void screen_of_game();
 void choose_color();
@@ -37,40 +37,40 @@ void save();
 void load();
 void game();
 void restore();
-IMAGE img[5];				// ±£´æÍ¼Æ¬
-void load_picture() {//Çñİ¶
-	loadimage(&img[0], L"Íã¶¹.png");
-	loadimage(&img[1], L"¼á¹û.png");
+IMAGE img[5];				// ä¿å­˜å›¾ç‰‡
+void load_picture() {//é‚±è»
+	loadimage(&img[0], L"è±Œè±†.png");
+	loadimage(&img[1], L"åšæœ.png");
 	mciSendString(_T("open music.mp3 alias mymusic"), NULL, 0, NULL);
-	loadimage(&img[2], L"ÈÏÊä.png", 80, 80);
-	loadimage(&img[3], L"ÖØÀ´.png", 80, 80);
-	loadimage(&img[4], L"´æÅÌ.png", 80, 80);
+	loadimage(&img[2], L"è®¤è¾“.png", 80, 80);
+	loadimage(&img[3], L"é‡æ¥.png", 80, 80);
+	loadimage(&img[4], L"å­˜ç›˜.png", 80, 80);
 }
-void victory() {//Ê¤Àû½çÃæ   //Çñİ¶
-	cleardevice();//Çå¿Õ»­²¼	
-	loadimage(NULL, L"victory.png");				//±³¾°Í¼Æ¬
+void victory() {//èƒœåˆ©ç•Œé¢   //é‚±è»
+	cleardevice();//æ¸…ç©ºç”»å¸ƒ	
+	loadimage(NULL, L"victory.png");				//èƒŒæ™¯å›¾ç‰‡
 }
-void defeat() {//Ê¤Àû½çÃæ   //Çñİ¶
-	cleardevice();//Çå¿Õ»­²¼	
-	loadimage(NULL, L"defeat.png");				//±³¾°Í¼Æ¬
+void defeat() {//èƒœåˆ©ç•Œé¢   //é‚±è»
+	cleardevice();//æ¸…ç©ºç”»å¸ƒ	
+	loadimage(NULL, L"defeat.png");				//èƒŒæ™¯å›¾ç‰‡
 }
 bool have_saved = false;
 void get_x_and_y() {
-	FlushMouseMsgBuffer();// Çå¿ÕÊó±êÏûÏ¢»º³åÇø
+	FlushMouseMsgBuffer();// æ¸…ç©ºé¼ æ ‡æ¶ˆæ¯ç¼“å†²åŒº
 	while (true) {
-		mouse = GetMouseMsg();// »ñÈ¡Ò»¸öÊó±êÏûÏ¢¡£Èç¹ûÃ»ÓĞ£¬¾ÍµÈ´ı
-		if (mouse.uMsg == WM_LBUTTONDOWN)	//ÊÇ·ñ°´Êó±ê×ó¼ü
+		mouse = GetMouseMsg();// è·å–ä¸€ä¸ªé¼ æ ‡æ¶ˆæ¯ã€‚å¦‚æœæ²¡æœ‰ï¼Œå°±ç­‰å¾…
+		if (mouse.uMsg == WM_LBUTTONDOWN)	//æ˜¯å¦æŒ‰é¼ æ ‡å·¦é”®
 		{
 			int xs = mouse.x;
 			int ys = mouse.y;
 			if (xs >= 700 && xs <= 750 && ys >= 50 && ys <= 100)
 			{
-				//µãÁËÈÏÊä
+				//ç‚¹äº†è®¤è¾“
 				lose_directly = true;
 				defeat();
 				while (true) {
-					mouse = GetMouseMsg();// »ñÈ¡Ò»¸öÊó±êÏûÏ¢¡£Èç¹ûÃ»ÓĞ£¬¾ÍµÈ´ı
-					if (mouse.uMsg == WM_LBUTTONDOWN)	//ÊÇ·ñ°´Êó±ê×ó¼ü
+					mouse = GetMouseMsg();// è·å–ä¸€ä¸ªé¼ æ ‡æ¶ˆæ¯ã€‚å¦‚æœæ²¡æœ‰ï¼Œå°±ç­‰å¾…
+					if (mouse.uMsg == WM_LBUTTONDOWN)	//æ˜¯å¦æŒ‰é¼ æ ‡å·¦é”®
 					{
 						return;
 					}
@@ -78,13 +78,13 @@ void get_x_and_y() {
 			}
 			if (xs >= 800 && xs <= 850 && ys >= 50 && ys <= 100)
 			{
-				//µãÁËÖØÀ´
+				//ç‚¹äº†é‡æ¥
 				main();
 				return;
 			}
 			if (xs >= 900 && xs <= 950 && ys >= 50 && ys <= 100)
 			{
-				//µãÁË´æÅÌ
+				//ç‚¹äº†å­˜ç›˜
 				save();
 				have_saved = true;
 				return;
@@ -101,60 +101,60 @@ void get_x_and_y() {
 							return;
 						}
 
-			}//Ñ¡³öÁËÍæ¼ÒÂä×Óxy
+			}//é€‰å‡ºäº†ç©å®¶è½å­xy
 		}
 	}
 }
 
-//ÓÎÏ·ËµÃ÷
-void init()//Çñİ¶
+//æ¸¸æˆè¯´æ˜
+void init()//é‚±è»
 {
 
-	initgraph(1280, 650); // ³õÊ¼Í¼ĞÎ»¯½çÃæ£¬¿í¸ß	
+	initgraph(1280, 650); // åˆå§‹å›¾å½¢åŒ–ç•Œé¢ï¼Œå®½é«˜	
 	mciSendString(_T("play mymusic"), NULL, 0, NULL);
-	loadimage(NULL, L"smy.jpg");				//±³¾°Í¼Æ¬
-	//¸øÄ»²¼»­Ïß
+	loadimage(NULL, L"smy.jpg");				//èƒŒæ™¯å›¾ç‰‡
+	//ç»™å¹•å¸ƒç”»çº¿
 	setlinecolor(BLACK);
-	FlushMouseMsgBuffer();// Çå¿ÕÊó±êÏûÏ¢»º³åÇø
+	FlushMouseMsgBuffer();// æ¸…ç©ºé¼ æ ‡æ¶ˆæ¯ç¼“å†²åŒº
 
 	while (true) {
-		mouse = GetMouseMsg();// »ñÈ¡Ò»¸öÊó±êÏûÏ¢¡£Èç¹ûÃ»ÓĞ£¬¾ÍµÈ´ı
-		if (mouse.uMsg == WM_LBUTTONDOWN)	//ÊÇ·ñ°´Êó±ê×ó¼ü
+		mouse = GetMouseMsg();// è·å–ä¸€ä¸ªé¼ æ ‡æ¶ˆæ¯ã€‚å¦‚æœæ²¡æœ‰ï¼Œå°±ç­‰å¾…
+		if (mouse.uMsg == WM_LBUTTONDOWN)	//æ˜¯å¦æŒ‰é¼ æ ‡å·¦é”®
 		{
 			X1 = mouse.x;
 			Y1 = mouse.y;
-			if (X1 >= 200 && X1 <= 350 && Y1 >= 510 && Y1 <= 580)//Èç¹ûµãÒ»µ¶99999¼¶
+			if (X1 >= 200 && X1 <= 350 && Y1 >= 510 && Y1 <= 580)//å¦‚æœç‚¹ä¸€åˆ€99999çº§
 			{
 				victory();
-				FlushMouseMsgBuffer();// Çå¿ÕÊó±êÏûÏ¢»º³åÇø
+				FlushMouseMsgBuffer();// æ¸…ç©ºé¼ æ ‡æ¶ˆæ¯ç¼“å†²åŒº
 				while (true) {
 					mouse = GetMouseMsg();
-					if (mouse.uMsg == WM_LBUTTONDOWN)	//ÊÇ·ñ°´Êó±ê×ó¼ü
+					if (mouse.uMsg == WM_LBUTTONDOWN)	//æ˜¯å¦æŒ‰é¼ æ ‡å·¦é”®
 					{
 						init();
 						return;
 					}
 				}
 			}
-			if (X1 >= 390 && X1 <= 540 && Y1 >= 510 && Y1 <= 580)//Èç¹ûµãĞÂÓÎÏ·
+			if (X1 >= 390 && X1 <= 540 && Y1 >= 510 && Y1 <= 580)//å¦‚æœç‚¹æ–°æ¸¸æˆ
 			{
 				choose_color();
 				return;
 			}
-			if (X1 >= 730 && X1 <= 910 && Y1 >= 510 && Y1 <= 580)//Èç¹ûµã¶ÁÈ¡´æµµ
+			if (X1 >= 730 && X1 <= 910 && Y1 >= 510 && Y1 <= 580)//å¦‚æœç‚¹è¯»å–å­˜æ¡£
 			{
 				load();
 				return;
 
 			}
-			if (X1 >= 950 && X1 <= 1100 && Y1 >= 510 && Y1 <= 580)//Èç¹ûµãÓÎÏ·ËµÃ÷
+			if (X1 >= 950 && X1 <= 1100 && Y1 >= 510 && Y1 <= 580)//å¦‚æœç‚¹æ¸¸æˆè¯´æ˜
 			{
-				cleardevice();//Çå¿Õ»­²¼	
-				loadimage(NULL, L"²»Î§Æå¹æÔò.png");
-				FlushMouseMsgBuffer();// Çå¿ÕÊó±êÏûÏ¢»º³åÇø
+				cleardevice();//æ¸…ç©ºç”»å¸ƒ	
+				loadimage(NULL, L"ä¸å›´æ£‹è§„åˆ™.png");
+				FlushMouseMsgBuffer();// æ¸…ç©ºé¼ æ ‡æ¶ˆæ¯ç¼“å†²åŒº
 				while (true) {
 					mouse = GetMouseMsg();
-					if (mouse.uMsg == WM_LBUTTONDOWN)	//ÊÇ·ñ°´Êó±ê×ó¼ü
+					if (mouse.uMsg == WM_LBUTTONDOWN)	//æ˜¯å¦æŒ‰é¼ æ ‡å·¦é”®
 					{
 						init();
 						return;
@@ -166,16 +166,16 @@ void init()//Çñİ¶
 }
 //xs=70x+100  ys=70y+50
 
-void screen_of_game() {//Çñİ¶
-	cleardevice();//Çå¿Õ»­²¼	
-	loadimage(NULL, L"±³¾°Í¼Æ¬.png");
+void screen_of_game() {//é‚±è»
+	cleardevice();//æ¸…ç©ºç”»å¸ƒ	
+	loadimage(NULL, L"èƒŒæ™¯å›¾ç‰‡.png");
 	putimage(700, 50, &img[2]);
 	putimage(800, 50, &img[3]);
 	putimage(900, 50, &img[4]);
 	//restore();
-	//»­ÆåÅÌµÄÏß
+	//ç”»æ£‹ç›˜çš„çº¿
 	setlinecolor(YELLOW);
-	//»­ºáÏß
+	//ç”»æ¨ªçº¿
 	for (int i = 0; i < 9; i++)
 		line(100, 50 + 70 * i, 660, 50 + 70 * i);
 	for (int i = 0; i < 9; i++)
@@ -190,16 +190,16 @@ void delay() {
 		}
 	}
 }
-int has_found[9][9] = { 0 };//ÓÃÓÚÅĞ¶ÏÆøµÄÊ±ºò¿´ÊÇ·ñÕÒ¹ı(x,y)´¦£¬ÈôÕÒ¹ıÁË£¬ÔòÊÇ1£¬·ñÔòÊÇ0
-//ÅĞ¶Ï±ß½ç
-inline bool inBorder(int x, int y)//ÄÏÏ£
+int has_found[9][9] = { 0 };//ç”¨äºåˆ¤æ–­æ°”çš„æ—¶å€™çœ‹æ˜¯å¦æ‰¾è¿‡(x,y)å¤„ï¼Œè‹¥æ‰¾è¿‡äº†ï¼Œåˆ™æ˜¯1ï¼Œå¦åˆ™æ˜¯0
+//åˆ¤æ–­è¾¹ç•Œ
+inline bool inBorder(int x, int y)//å—å¸Œ
 {
 	return x >= 0 && x < 9 && y >= 0 && y < 9;
 }
-//Ó¦ÓÃÆø£ºÈç¹ûÏÂÁËÒ»¸ö×Ó£¬µ¼ÖÂÅÔ±ßµÄ¶Ô·½Æå×ÓÃ»ÓĞÆø£¬Êä£»
-//Èç¹ûÏÂÁËÒ»¸ö×Ó£¬Õâ¸ö×ÓËù´¦Î»ÖÃÎŞÆø£¬×ÔÉ±Êä
+//åº”ç”¨æ°”ï¼šå¦‚æœä¸‹äº†ä¸€ä¸ªå­ï¼Œå¯¼è‡´æ—è¾¹çš„å¯¹æ–¹æ£‹å­æ²¡æœ‰æ°”ï¼Œè¾“ï¼›
+//å¦‚æœä¸‹äº†ä¸€ä¸ªå­ï¼Œè¿™ä¸ªå­æ‰€å¤„ä½ç½®æ— æ°”ï¼Œè‡ªæ€è¾“
 
-//ÅĞ¶Ï(x,y)´¦µÄÆå×ÓÊÇ·ñÓĞÆø ÄÏÏ£
+//åˆ¤æ–­(x,y)å¤„çš„æ£‹å­æ˜¯å¦æœ‰æ°” å—å¸Œ
 bool has_air(int x, int y)
 {
 	has_found[x][y] = true;
@@ -225,7 +225,7 @@ bool has_air(int x, int y)
 	}
 	return flag;
 }
-//ÅĞ¶Ï×ÔÉ±  true ×ÔÉ±   false»î×Å ÄÏÏ£
+//åˆ¤æ–­è‡ªæ€  true è‡ªæ€   falseæ´»ç€ å—å¸Œ
 bool suicide(int x, int y)
 {
 	if (!has_air(x, y))
@@ -240,7 +240,7 @@ bool suicide(int x, int y)
 	}
 }
 
-//ÅĞ¶ÏÊÇ·ñ³Ô×Ó   false  ³Ô×Ó    true Ã»³Ô×Ó ÄÏÏ£
+//åˆ¤æ–­æ˜¯å¦åƒå­   false  åƒå­    true æ²¡åƒå­ å—å¸Œ
 bool not_eat_opponent(int x, int y)
 {
 	for (int i = 0; i < 4; i++)
@@ -260,10 +260,10 @@ bool not_eat_opponent(int x, int y)
 	return true;
 }
 
-//ÅĞ¶ÏÏÂÁËÕâÒ»²½ºóÊäÁËÃ»ÓĞ   ÄÏÏ£
-//ÅĞ¶Ï(x,y)´¦ÊÇ·ñÊÇÑÕÉ«Îªcolor µÄÆå×ÓµÄºÏ·¨Î»ÖÃ   trueºÏ·¨(ÏÂÁËÖ®ºó²»Êä£© false²»ºÏ·¨ £¨ÏÂÁË¾ÍËÀÁË£©
-bool legal_step(int x, int y, int color)//ÔÚ»¹Ã»ÓĞ°ÑcolorÉ«µÄÆå×ÓÏÂÔÚÕâÀï£¬
-//ÅĞ¶Ï(x,y)´¦ÊÇ·ñÊÇÑÕÉ«ÎªcolorµÄÆå×ÓµÄºÏ·¨Î»ÖÃ
+//åˆ¤æ–­ä¸‹äº†è¿™ä¸€æ­¥åè¾“äº†æ²¡æœ‰   å—å¸Œ
+//åˆ¤æ–­(x,y)å¤„æ˜¯å¦æ˜¯é¢œè‰²ä¸ºcolor çš„æ£‹å­çš„åˆæ³•ä½ç½®   trueåˆæ³•(ä¸‹äº†ä¹‹åä¸è¾“ï¼‰ falseä¸åˆæ³• ï¼ˆä¸‹äº†å°±æ­»äº†ï¼‰
+bool legal_step(int x, int y, int color)//åœ¨è¿˜æ²¡æœ‰æŠŠcolorè‰²çš„æ£‹å­ä¸‹åœ¨è¿™é‡Œï¼Œ
+//åˆ¤æ–­(x,y)å¤„æ˜¯å¦æ˜¯é¢œè‰²ä¸ºcolorçš„æ£‹å­çš„åˆæ³•ä½ç½®
 {
 	bool ans = false;
 	if (board[x][y] == 0)
@@ -276,7 +276,7 @@ bool legal_step(int x, int y, int color)//ÔÚ»¹Ã»ÓĞ°ÑcolorÉ«µÄÆå×ÓÏÂÔÚÕâÀï£¬
 	}
 	return ans;
 }
-//ÅĞ¶ÏÒ»¸öÎ»ÖÃÖÜÎ§µÄÔÚ±ß½çÄÚµÄÎ»ÖÃÓĞ¼¸¸ö  ÄÏÏ£
+//åˆ¤æ–­ä¸€ä¸ªä½ç½®å‘¨å›´çš„åœ¨è¾¹ç•Œå†…çš„ä½ç½®æœ‰å‡ ä¸ª  å—å¸Œ
 int calc_dir(int fx, int fy) {
 	int cnt = 0;
 	for (int i = 0; i < 4; ++i) {
@@ -285,7 +285,7 @@ int calc_dir(int fx, int fy) {
 	}
 	return cnt;
 }
-//ÅĞ¶ÏÒ»¸öÎ»ÖÃËÄÖÜµÄÔÚ±ß½çÄÚµÄÎ»ÖÃÉÏÓĞ¼¸¸öcolÉ«µÄÆå×Ó  ÄÏÏ£
+//åˆ¤æ–­ä¸€ä¸ªä½ç½®å››å‘¨çš„åœ¨è¾¹ç•Œå†…çš„ä½ç½®ä¸Šæœ‰å‡ ä¸ªcolè‰²çš„æ£‹å­  å—å¸Œ
 int check_cross(int fx, int fy, int col) {
 	int cnt = 0;
 	for (int i = 0; i < 4; ++i) {
@@ -297,7 +297,7 @@ int check_cross(int fx, int fy, int col) {
 	return cnt;
 }
 int eyelist[10][10] = { 0 };
-//ÅĞ¶ÏÊÇ·ñÊÇµçÄÔÈË¹¤ÖÇÄÜÒÑ¾­ĞÎ³ÉµÄÑÛ£¬Ä¿µÄÊÇ×îºóÔÚ°Ñ×Ô¼ºĞÎ³ÉµÄÑÛÌîÉÏ  ÄÏÏ£
+//åˆ¤æ–­æ˜¯å¦æ˜¯ç”µè„‘äººå·¥æ™ºèƒ½å·²ç»å½¢æˆçš„çœ¼ï¼Œç›®çš„æ˜¯æœ€ååœ¨æŠŠè‡ªå·±å½¢æˆçš„çœ¼å¡«ä¸Š  å—å¸Œ
 void eye()
 {
 	for (int x = 0; x < 9; x++)
@@ -318,31 +318,31 @@ void eye()
 			}
 		}
 }
-//½«ÓÎÏ·³õÊ¼»¯ ÈçÆåÅÌÇå¿Õ »ØºÏÊıÇåÁã
+//å°†æ¸¸æˆåˆå§‹åŒ– å¦‚æ£‹ç›˜æ¸…ç©º å›åˆæ•°æ¸…é›¶
 void origin() {
 	memset(board, 0, sizeof(board));
 	r = 1;
 }
-//´ò³öÆåÅÌ
+//æ‰“å‡ºæ£‹ç›˜
 
-//Çñİ¶
-//¼ì²éÏÂµÄÄ³Ò»²½ÊÇ·ñºÏ·¨(·ûºÏÓÎÏ·¹æÔò£©
+//é‚±è»
+//æ£€æŸ¥ä¸‹çš„æŸä¸€æ­¥æ˜¯å¦åˆæ³•(ç¬¦åˆæ¸¸æˆè§„åˆ™ï¼‰
 bool checkstep(int x, int y) {
 	if (x < 0 || y < 0 || x >= 9 || y >= 9)
 		return false;
 	if (board[x][y] != 0)
 		return false;
-	if (x == 4 && y == 4 && r == 1)//ºÚ×ÓÏÈÊÖ²»ÄÜÏÂÖĞ¼ä
+	if (x == 4 && y == 4 && r == 1)//é»‘å­å…ˆæ‰‹ä¸èƒ½ä¸‹ä¸­é—´
 		return false;
 	return true;
 }
 void choose_color() {
-	cleardevice();//Çå¿Õ»­²¼	
-	loadimage(NULL, L"Ñ¡ºÚ°×.png");
-	FlushMouseMsgBuffer();// Çå¿ÕÊó±êÏûÏ¢»º³åÇø
+	cleardevice();//æ¸…ç©ºç”»å¸ƒ	
+	loadimage(NULL, L"é€‰é»‘ç™½.png");
+	FlushMouseMsgBuffer();// æ¸…ç©ºé¼ æ ‡æ¶ˆæ¯ç¼“å†²åŒº
 	while (true) {
-		mouse = GetMouseMsg();// »ñÈ¡Ò»¸öÊó±êÏûÏ¢¡£Èç¹ûÃ»ÓĞ£¬¾ÍµÈ´ı
-		if (mouse.uMsg == WM_LBUTTONDOWN)	//ÊÇ·ñ°´Êó±ê×ó¼ü
+		mouse = GetMouseMsg();// è·å–ä¸€ä¸ªé¼ æ ‡æ¶ˆæ¯ã€‚å¦‚æœæ²¡æœ‰ï¼Œå°±ç­‰å¾…
+		if (mouse.uMsg == WM_LBUTTONDOWN)	//æ˜¯å¦æŒ‰é¼ æ ‡å·¦é”®
 		{
 			X1 = mouse.x;
 			Y1 = mouse.y;
@@ -360,25 +360,25 @@ void choose_color() {
 	}
 }
 
-//¾²Ì¬¾ÖÃæÆÀ¹Àº¯Êı µÃµ½x£¬yµãµÄ¼ÛÖµ
+//é™æ€å±€é¢è¯„ä¼°å‡½æ•° å¾—åˆ°xï¼Œyç‚¹çš„ä»·å€¼
 
 int valuepoint[9][9] = { 0 };
 int significance[9][9];
-//¸øsignificance¸³Öµ ÄÏÏ£
+//ç»™significanceèµ‹å€¼ å—å¸Œ
 void give_significance() {
 
 	for (int i = 0; i < 9; i++)
 		for (int j = 0; j < 9; j++)
 			significance[i][j] = 1;
 }
-//Ñ¡µã,Ã¿Ò»¸öĞÂµÄÊÖÊı°Ñvaluepoint¹éÁã  ÆÀ¹ÀÃ¿¸öµãµÄvalue ÄÏÏ£
+//é€‰ç‚¹,æ¯ä¸€ä¸ªæ–°çš„æ‰‹æ•°æŠŠvaluepointå½’é›¶  è¯„ä¼°æ¯ä¸ªç‚¹çš„value å—å¸Œ
 int give_valuepoint(int x, int y, int color)
 {
 	int value = 0;
 	if (checkstep(x, y))
-	{//Èç¹ûÕâÀïÄÜÏÂ(¿Õ×ÅµÄ)
-		board[x][y] = color;// ¾ÍÏÂ
-		if (suicide(x, y) || !not_eat_opponent(x, y)) {//Èç¹ûÕâÒ»²½ÏÂÁË¾ÍËÀÁË
+	{//å¦‚æœè¿™é‡Œèƒ½ä¸‹(ç©ºç€çš„)
+		board[x][y] = color;// å°±ä¸‹
+		if (suicide(x, y) || !not_eat_opponent(x, y)) {//å¦‚æœè¿™ä¸€æ­¥ä¸‹äº†å°±æ­»äº†
 			value = -10000;
 			board[x][y] = 0;
 			return value;
@@ -386,13 +386,13 @@ int give_valuepoint(int x, int y, int color)
 		for (int i = 0; i < 9; i++)
 			for (int j = 0; j < 9; j++)
 			{
-				if (!legal_step(i, j, 3 - color))//Èç¹ûÕâÀïÄÜÏÂ ²¢ÇÒÏÂÁËµçÄÔ»áËÀ
+				if (!legal_step(i, j, 3 - color))//å¦‚æœè¿™é‡Œèƒ½ä¸‹ å¹¶ä¸”ä¸‹äº†ç”µè„‘ä¼šæ­»
 					value += significance[i][j];
 			}
 		for (int i = 0; i < 9; i++)
 			for (int j = 0; j < 9; j++)
 			{
-				if (!legal_step(i, j, color))//ÕâÀïÄÜÏÂ²¢ÇÒÈËÏÂÁË»áËÀ
+				if (!legal_step(i, j, color))//è¿™é‡Œèƒ½ä¸‹å¹¶ä¸”äººä¸‹äº†ä¼šæ­»
 					value -= significance[i][j];
 			}
 		board[x][y] = 0;
@@ -400,37 +400,37 @@ int give_valuepoint(int x, int y, int color)
 	valuepoint[x][y] = value;
 	return value;
 }
-//¼ÆËãÂü¹ş¶Ù¾àÀë ÄÏÏ£
+//è®¡ç®—æ›¼å“ˆé¡¿è·ç¦» å—å¸Œ
 int manhattan_d(int x1, int y1, int x2, int y2)
 {
 	int d = abs(x1 - x2) + abs(y1 - y1);
 	return d;
 }
-//Çñİ¶
+//é‚±è»
 void scatter() {
-	int cnt = 0;//´òÉ¢¹æÔòÖĞ·ûºÏÌõ¼şµÄ×ÜµãÊı
+	int cnt = 0;//æ‰“æ•£è§„åˆ™ä¸­ç¬¦åˆæ¡ä»¶çš„æ€»ç‚¹æ•°
 	int x_scatter[81], y_scatter[81];
 	int max1 = 0;
 	for (int i = 0; i < 9; i++)
 		for (int j = 0; j < 9; j++) {
 			if (!legal_step(i, j, 3 - option) || !checkstep(i, j))
 				continue;
-			else//Ëü¾ÍÊÇ¿ÉÏÂ×Ó  Ñ¡³öËüºÍÆåÅÌÖĞËùÓĞµãµÄÂü¹ş¶Ù¾àÀëµÄ×îĞ¡Öµ
+			else//å®ƒå°±æ˜¯å¯ä¸‹å­  é€‰å‡ºå®ƒå’Œæ£‹ç›˜ä¸­æ‰€æœ‰ç‚¹çš„æ›¼å“ˆé¡¿è·ç¦»çš„æœ€å°å€¼
 			{
 				int min1 = 20;
 				for (int ii = 0; ii < 9; ii++)
 					for (int jj = 0; jj < 9; jj++) {
 						if (manhattan_d(i, j, ii, jj) < min1)
 							min1 = manhattan_d(i, j, ii, jj);
-					}//min1ÊÇ¶ÔÓÚ£¨i£¬j£©µãÀ´ËµÂü¹ş¶Ù¾àÀëµÄ×îĞ¡Öµ
-				if (min1 > max1) {//Âü¹ş¶Ù¾àÀë×îĞ¡µÄ×î´óÖµµÄµã
+					}//min1æ˜¯å¯¹äºï¼ˆiï¼Œjï¼‰ç‚¹æ¥è¯´æ›¼å“ˆé¡¿è·ç¦»çš„æœ€å°å€¼
+				if (min1 > max1) {//æ›¼å“ˆé¡¿è·ç¦»æœ€å°çš„æœ€å¤§å€¼çš„ç‚¹
 					cnt = 0;
 					max1 = min1;
 					x_scatter[cnt] = i;
 					y_scatter[cnt] = j;
 					cnt++;
 				}
-				if (min1 == max1) {//Âü¹ş¶Ù¾àÀë×îĞ¡µÄ×î´óÖµµÄµã
+				if (min1 == max1) {//æ›¼å“ˆé¡¿è·ç¦»æœ€å°çš„æœ€å¤§å€¼çš„ç‚¹
 					x_scatter[cnt] = i;
 					y_scatter[cnt] = j;
 					cnt++;
@@ -445,15 +445,15 @@ void scatter() {
 	}
 	if (cnt > 1) {
 		int k = 0;
-		srand((unsigned)time(NULL));//ÓÃÏµÍ³Ê±¼ä²úÉúËæ»úÊıÖÖ×Ó
-		k = rand() % cnt;//ÔÚ0µ½cnt-1ÖĞÑ¡Ò»¸öÊı
+		srand((unsigned)time(NULL));//ç”¨ç³»ç»Ÿæ—¶é—´äº§ç”Ÿéšæœºæ•°ç§å­
+		k = rand() % cnt;//åœ¨0åˆ°cnt-1ä¸­é€‰ä¸€ä¸ªæ•°
 		x = x_scatter[k];
 		y = y_scatter[k];
 	}
 }
-//minmaxËÑË÷
-int maxi = 2;//²ãÊı
-//ÄÏÏ£
+//minmaxæœç´¢
+int maxi = 2;//å±‚æ•°
+//å—å¸Œ
 void give_maxivalue()
 {
 	if (r <= 30)
@@ -464,35 +464,35 @@ void give_maxivalue()
 		maxi = 2;
 }
 int temp_x1, temp_y1;
-//ÄÏÏ£
-int dfs(int depth, int color, int number)//²ãÊı ×ÓµÄÑÕÉ« Öµ ÑÕÉ«
+//å—å¸Œ
+int dfs(int depth, int color, int number)//å±‚æ•° å­çš„é¢œè‰² å€¼ é¢œè‰²
 {
 	give_maxivalue();
-	if (depth > maxi)//ËÑµ½ÁË×îµ×²ã£¬·µ»Ø
+	if (depth > maxi)//æœåˆ°äº†æœ€åº•å±‚ï¼Œè¿”å›
 	{
 		return give_valuepoint(temp_x1, temp_y1, color);
 	}
 	int ret = 0, flag = 0;
 	if (color == 3 - option) {
-		//Èç¹ûÊÇmax²ã
+		//å¦‚æœæ˜¯maxå±‚
 		ret = -2147483647, flag = 0;
 	}
 	if (color == option) {
-		//Èç¹ûÊÇmin²ã
+		//å¦‚æœæ˜¯minå±‚
 		ret = 2147483647, flag = 0;
 	}
-	//int ret = 0, flag = 0;//³õÖµ²»Ò»¶¨¶¼ÊÇ0£¬¸ù¾İµ±Ç°min»¹ÊÇmax²ãÀ´¶¨
-	if (color == 3 - option)//ÔÚmax²ã 
+	//int ret = 0, flag = 0;//åˆå€¼ä¸ä¸€å®šéƒ½æ˜¯0ï¼Œæ ¹æ®å½“å‰minè¿˜æ˜¯maxå±‚æ¥å®š
+	if (color == 3 - option)//åœ¨maxå±‚ 
 		for (int i = 0; i < 9; i++)
 		{
 			for (int j = 0; j < 9; j++)
 			{
-				if (legal_step(i, j, color))//Ã¶¾ÙÂä×Óµã²¢Âä×Ó
+				if (legal_step(i, j, color))//æšä¸¾è½å­ç‚¹å¹¶è½å­
 				{
 					temp_x1 = i;
 					temp_y1 = j;
-					ret = max(ret, dfs(depth + 1, 3 - color, ret));//¶ÔÓÚ×Ó½ÚµãµÄ·µ»ØÖµÈ¡max
-					if (ret > number)//¼ôÖ¦
+					ret = max(ret, dfs(depth + 1, 3 - color, ret));//å¯¹äºå­èŠ‚ç‚¹çš„è¿”å›å€¼å–max
+					if (ret > number)//å‰ªæ
 					{
 						flag = 1;
 						break;
@@ -503,16 +503,16 @@ int dfs(int depth, int color, int number)//²ãÊı ×ÓµÄÑÕÉ« Öµ ÑÕÉ«
 			}
 			return ret;
 		}
-	if (color == option)//ÔÚmin²ã
+	if (color == option)//åœ¨minå±‚
 		for (int i = 0; i < 9; i++)
 		{
 			for (int j = 0; j < 9; j++)
 			{
-				if (legal_step(i, j, color))//Ã¶¾ÙÂä×Óµã²¢Âä×Ó
+				if (legal_step(i, j, color))//æšä¸¾è½å­ç‚¹å¹¶è½å­
 				{
 					temp_x1 = i;
 					temp_y1 = j;
-					ret = min(ret, dfs(depth + 1, 3 - color, ret));//¶ÔÓÚ×Ó½ÚµãµÄ·µ»ØÖµÈ¡max
+					ret = min(ret, dfs(depth + 1, 3 - color, ret));//å¯¹äºå­èŠ‚ç‚¹çš„è¿”å›å€¼å–max
 					if (ret < number)
 					{
 						flag = 1;
@@ -525,8 +525,8 @@ int dfs(int depth, int color, int number)//²ãÊı ×ÓµÄÑÕÉ« Öµ ÑÕÉ«
 			return ret;
 		}
 }
-bool flag1 = 0;//ÓÃÓÚÅĞ¶ÏÊÇ·ñ¶Â¶Ô·½µÄÑÛ
-void blockopponenteye()//¶Â×¡¶Ô·½½«ÒªÔì³öµÄÑÛ  ÄÏÏ£
+bool flag1 = 0;//ç”¨äºåˆ¤æ–­æ˜¯å¦å µå¯¹æ–¹çš„çœ¼
+void blockopponenteye()//å µä½å¯¹æ–¹å°†è¦é€ å‡ºçš„çœ¼  å—å¸Œ
 {
 	for (int i = 0; i < 9; ++i) {
 		for (int j = 0; j < 9; ++j) {
@@ -543,8 +543,8 @@ void blockopponenteye()//¶Â×¡¶Ô·½½«ÒªÔì³öµÄÑÛ  ÄÏÏ£
 	}
 }
 
-bool ans1 = false;//ÓÃÓÚÅĞ¶ÏÊÇ·ñÔìÁË×Ô¼ºµÄÑÛ
-void makeeye()//ÊÖ¶¯ÔìÑÛ  ÄÏÏ£
+bool ans1 = false;//ç”¨äºåˆ¤æ–­æ˜¯å¦é€ äº†è‡ªå·±çš„çœ¼
+void makeeye()//æ‰‹åŠ¨é€ çœ¼  å—å¸Œ
 {
 	for (int i = 0; i < 9; i++)
 	{
@@ -560,9 +560,9 @@ void makeeye()//ÊÖ¶¯ÔìÑÛ  ÄÏÏ£
 				{
 					int xx = i + dx[k];
 					int yy = j + dy[k];
-					if (inBorder(xx, yy) && board[xx][yy] == 3 - option)//×Ô¼ºµÄÆå×Ó¸öÊı
+					if (inBorder(xx, yy) && board[xx][yy] == 3 - option)//è‡ªå·±çš„æ£‹å­ä¸ªæ•°
 						cnt1++;
-					if (inBorder(xx, yy) && board[xx][yy] == 0)//¿ÕÎ»
+					if (inBorder(xx, yy) && board[xx][yy] == 0)//ç©ºä½
 					{
 						cnt2++;
 						x0 = xx;
@@ -582,10 +582,10 @@ void makeeye()//ÊÖ¶¯ÔìÑÛ  ÄÏÏ£
 			break;
 	}
 }
-//ÈË¹¤ÖÇÄÜ
+//äººå·¥æ™ºèƒ½
 
-//Í¨¹ı¼ÛÖµÆÀ¹Àº¯ÊıÀ´Ñ¡ÔñµçÄÔÂä×ÓµÄµØ·½
-//int point_of_maxvalue[81][9][9];// ¼ÛÖµ×î´óµÄµã
+//é€šè¿‡ä»·å€¼è¯„ä¼°å‡½æ•°æ¥é€‰æ‹©ç”µè„‘è½å­çš„åœ°æ–¹
+//int point_of_maxvalue[81][9][9];// ä»·å€¼æœ€å¤§çš„ç‚¹
 struct point {
 	int x;
 	int y;
@@ -593,33 +593,33 @@ struct point {
 point point_of_maxvalue[81];
 int cnt_of_maxvalue = 0;
 bool findnoteye = false;
-//Çñİ¶
-void putchess_of_AI() {//µçÄÔµÄÑÕÉ«¾ÍÊÇ3-option
+//é‚±è»
+void putchess_of_AI() {//ç”µè„‘çš„é¢œè‰²å°±æ˜¯3-option
 	if (r == 1)
 	{
-		srand((unsigned)time(NULL));//ÓÃÏµÍ³Ê±¼ä²úÉúËæ»úÊıÖÖ×Ó
+		srand((unsigned)time(NULL));//ç”¨ç³»ç»Ÿæ—¶é—´äº§ç”Ÿéšæœºæ•°ç§å­
 		x = rand() % 9;
 		y = rand() % 9;
 		while (!checkstep(x, y)) {
-			srand((unsigned)time(NULL));//ÓÃÏµÍ³Ê±¼ä²úÉúËæ»úÊıÖÖ×Ó
+			srand((unsigned)time(NULL));//ç”¨ç³»ç»Ÿæ—¶é—´äº§ç”Ÿéšæœºæ•°ç§å­
 			x = rand() % 9;
 			y = rand() % 9;
 		}
 	}
 	else {
 		blockopponenteye();
-		if (!flag1)//Ã»ÓĞ¶Â¶Ô·½µÄÑÛ
+		if (!flag1)//æ²¡æœ‰å µå¯¹æ–¹çš„çœ¼
 		{
-			makeeye();//È¥×Ô¼ºÔìÑÛ
-			if (!ans1)//×Ô¼ºÃ»ÓĞÔì³ÉÑÛ
+			makeeye();//å»è‡ªå·±é€ çœ¼
+			if (!ans1)//è‡ªå·±æ²¡æœ‰é€ æˆçœ¼
 			{
 				eye();
 				int maxvalue = -2147483648;
 				cnt_of_maxvalue = 0;
 				for (int i = 0; i < 9; i++)
-					for (int j = 0; j < 9; j++) {//±éÀúÃ¿¸öµãµÄ¼ÛÖµ
-						if (checkstep(i, j) && legal_step(i, j, 3 - option) && eyelist[i][j] != 3) {//Èç¹ûÕâ¸öµã¿ÉÒÔÏÂ¶øÇÒ²»ÊÇÎÒÔìµÄÑÛ
-							findnoteye = true;//»¹ÓĞ¿ÉÒÔ²»ÓÃ°Ñ×Ô¼ºµÄÑÛ¶ÂÉÏµÄÎ»ÖÃ
+					for (int j = 0; j < 9; j++) {//éå†æ¯ä¸ªç‚¹çš„ä»·å€¼
+						if (checkstep(i, j) && legal_step(i, j, 3 - option) && eyelist[i][j] != 3) {//å¦‚æœè¿™ä¸ªç‚¹å¯ä»¥ä¸‹è€Œä¸”ä¸æ˜¯æˆ‘é€ çš„çœ¼
+							findnoteye = true;//è¿˜æœ‰å¯ä»¥ä¸ç”¨æŠŠè‡ªå·±çš„çœ¼å µä¸Šçš„ä½ç½®
 							int temp_max = dfs(0, 3 - option, 2147483647);
 							if (temp_max > maxvalue) {
 								cnt_of_maxvalue = 0;
@@ -639,13 +639,13 @@ void putchess_of_AI() {//µçÄÔµÄÑÕÉ«¾ÍÊÇ3-option
 				if (cnt_of_maxvalue == 1)
 				{
 					x = point_of_maxvalue[cnt_of_maxvalue - 1].x;
-					y = point_of_maxvalue[cnt_of_maxvalue - 1].y;//Ñ¡¶¨ÁËµçÄÔÏÂµÄx y
+					y = point_of_maxvalue[cnt_of_maxvalue - 1].y;//é€‰å®šäº†ç”µè„‘ä¸‹çš„x y
 				}
 				if (cnt_of_maxvalue > 1)
 				{
-					//Ö´ĞĞ´òÉ¢¹æÔò
+					//æ‰§è¡Œæ‰“æ•£è§„åˆ™
 					scatter();
-					//Ñ¡³öÁËµçÄÔÏÂµÄx y
+					//é€‰å‡ºäº†ç”µè„‘ä¸‹çš„x y
 				}
 				if (!findnoteye)
 					for (int i = 0; i < 9; i++)
@@ -660,8 +660,8 @@ void putchess_of_AI() {//µçÄÔµÄÑÕÉ«¾ÍÊÇ3-option
 	}
 }
 
-//´òÉ¢À´Ñ¡AIµÄÂä×Ó
-//ÄÏÏ£
+//æ‰“æ•£æ¥é€‰AIçš„è½å­
+//å—å¸Œ
 void save()
 {
 	ofstream fout("temp.txt");
@@ -675,7 +675,7 @@ void save()
 	fout << r;
 	fout.close();
 }
-//ÄÏÏ£
+//å—å¸Œ
 void load() {
 	ifstream fin("temp.txt");
 	for (int i = 0; i < 9; i++)
@@ -685,9 +685,9 @@ void load() {
 	fin >> r;
 	//fin.close();
 }
-//Çñİ¶
+//é‚±è»
 void restore() {
-	//¸´Ô­´æ¹ıµÄ¾ÖÃæ
+	//å¤åŸå­˜è¿‡çš„å±€é¢
 	for (int i = 0; i < 9; i++)
 		for (int j = 0; j < 9; j++)
 		{
@@ -704,16 +704,16 @@ void restore() {
 			}
 		}
 }
-//Çñİ¶
+//é‚±è»
 void game() {
 	screen_of_game();
 	restore();
 	while (true) {
-		if (r % 2 == 2 - option) {//Èç¹ûÂÖµ½×Ô¼ºÏÂ
-			lose_directly = false;//ÊÇ·ñµãÁËÈÏÊä
+		if (r % 2 == 2 - option) {//å¦‚æœè½®åˆ°è‡ªå·±ä¸‹
+			lose_directly = false;//æ˜¯å¦ç‚¹äº†è®¤è¾“
 			have_saved = false;
 			get_x_and_y();
-			//Èç¹ûÒªÏÂµÄ»°		
+			//å¦‚æœè¦ä¸‹çš„è¯		
 			if (lose_directly)
 				return;
 			if (have_saved)
@@ -721,7 +721,7 @@ void game() {
 			while (!checkstep(x, y)) {
 				get_x_and_y();
 			}
-			if (checkstep(x, y)) {//×ø±êºÏ·¨
+			if (checkstep(x, y)) {//åæ ‡åˆæ³•
 				board[x][y] = option;
 				X1 = 70 * x + 100;
 				Y1 = 70 * y + 50;
@@ -736,30 +736,30 @@ void game() {
 				}
 				if (suicide(x, y) || !not_eat_opponent(x, y))
 				{
-					//ÊäµôµÄ½çÃæ
+					//è¾“æ‰çš„ç•Œé¢
 					defeat();
-					FlushMouseMsgBuffer();// Çå¿ÕÊó±êÏûÏ¢»º³åÇø
+					FlushMouseMsgBuffer();// æ¸…ç©ºé¼ æ ‡æ¶ˆæ¯ç¼“å†²åŒº
 					while (true) {
-						mouse = GetMouseMsg();// »ñÈ¡Ò»¸öÊó±êÏûÏ¢¡£Èç¹ûÃ»ÓĞ£¬¾ÍµÈ´ı
-						if (mouse.uMsg == WM_LBUTTONDOWN)	//ÊÇ·ñ°´Êó±ê×ó¼ü
+						mouse = GetMouseMsg();// è·å–ä¸€ä¸ªé¼ æ ‡æ¶ˆæ¯ã€‚å¦‚æœæ²¡æœ‰ï¼Œå°±ç­‰å¾…
+						if (mouse.uMsg == WM_LBUTTONDOWN)	//æ˜¯å¦æŒ‰é¼ æ ‡å·¦é”®
 						{
 							return;
 						}
 					}
 				}
-				r++;//»ØºÏÊı¼ÓÒ»
+				r++;//å›åˆæ•°åŠ ä¸€
 			}
 		}
-		if (r % 2 != option) {//Èç¹ûÂÖµ½¶ÔÊÖÏÂ
-			/*srand((unsigned)time(NULL));//ÓÃÏµÍ³Ê±¼ä²úÉúËæ»úÊıÖÖ×Ó
+		if (r % 2 != option) {//å¦‚æœè½®åˆ°å¯¹æ‰‹ä¸‹
+			/*srand((unsigned)time(NULL));//ç”¨ç³»ç»Ÿæ—¶é—´äº§ç”Ÿéšæœºæ•°ç§å­
 			x = rand() % 9;
 			y = rand() % 9;
 			while (!checkstep(x, y)) {
-				srand((unsigned)time(NULL));//ÓÃÏµÍ³Ê±¼ä²úÉúËæ»úÊıÖÖ×Ó
+				srand((unsigned)time(NULL));//ç”¨ç³»ç»Ÿæ—¶é—´äº§ç”Ÿéšæœºæ•°ç§å­
 				x = rand() % 9;
 				y = rand() % 9;
 			}*/
-			putchess_of_AI();//µÃµ½ÁËx, y ;
+			putchess_of_AI();//å¾—åˆ°äº†x, y ;
 			ans1 = false;
 			flag1 = 0;
 			memset(eyelist, 0, sizeof(eyelist));
@@ -772,17 +772,17 @@ void game() {
 				putimage(X1 - 30, Y1 - 30, &img[0]);
 			if (suicide(x, y) || !not_eat_opponent(x, y))
 			{
-				//µçÄÔÊäÁË ¼´ÄãÓ®ÁË
+				//ç”µè„‘è¾“äº† å³ä½ èµ¢äº†
 				victory();
 				while (true) {
-					mouse = GetMouseMsg();// »ñÈ¡Ò»¸öÊó±êÏûÏ¢¡£Èç¹ûÃ»ÓĞ£¬¾ÍµÈ´ı
-					if (mouse.uMsg == WM_LBUTTONDOWN)	//ÊÇ·ñ°´Êó±ê×ó¼ü
+					mouse = GetMouseMsg();// è·å–ä¸€ä¸ªé¼ æ ‡æ¶ˆæ¯ã€‚å¦‚æœæ²¡æœ‰ï¼Œå°±ç­‰å¾…
+					if (mouse.uMsg == WM_LBUTTONDOWN)	//æ˜¯å¦æŒ‰é¼ æ ‡å·¦é”®
 					{
 						return;
 					}
 				}
 			}
-			r++;//»ØºÏÊı¼ÓÒ»
+			r++;//å›åˆæ•°åŠ ä¸€
 		}
 	}
 
